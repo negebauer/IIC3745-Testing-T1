@@ -10,6 +10,21 @@ public class HighLifeBoard {
 	
 	private boolean[][] board;
 	private int length, width;
+	
+	/**
+	 * Changes the boolean value of a specific cell in the board
+	 * */
+	public void setCell(int i, int j, boolean value) {
+		if(i < 0)
+			i = 0;
+		else if(i >= this.length)
+			i = this.length - 1;
+		
+		if(j < 0)
+			j = 0;
+		else if(j >= this.width)
+			i = this.width - 1;
+	}
 
 	/**
 	 * Creates a board with the desired length and width.
@@ -36,6 +51,15 @@ public class HighLifeBoard {
 	 * */
 	public HighLifeBoard(int length, int width) {
 		this(length, width, false);
+	}
+	
+	/**
+	 * Builds a new board from the specified boolean matrix
+	 * */
+	public HighLifeBoard(boolean[][] board) {
+		this.length = board.length;
+		this.width = board[0].length;
+		this.board = board;
 	}
 	
 	/**
