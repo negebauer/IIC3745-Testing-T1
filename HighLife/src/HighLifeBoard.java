@@ -11,6 +11,10 @@ public class HighLifeBoard {
 	private boolean[][] board;
 	private int length, width;
 	
+	public boolean[][] getData() {
+		return board;
+	}
+	
 	/**
 	 * Changes the boolean value of a specific cell in the board
 	 * */
