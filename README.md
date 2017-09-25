@@ -43,4 +43,4 @@ Con esto en mente se procede a revisar el código en búsqueda de potenciales ob
 
 `public String toString()`: Este método también podría ser testeado, pero no tiene tanto valor. Esto dado que si los métodos anteriores están correctos se podrá apreciar facilmente en consola si este tiene un problema.
 
-Con esta información en mente se proceden a crear los distintos tests, los cuales se pueden encontrar en [`HighLife/src/tests/HighLifeBoardTests.java`](HighLife/src/tests/HighLifeBoardTests.java).
+Con esta información en mente se proceden a crear los distintos tests, los cuales se pueden encontrar en [`HighLife/src/HighLifeBoardTests.java`](HighLife/src/HighLifeBoardTests.java).
