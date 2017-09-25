@@ -1,4 +1,3 @@
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.color.ColorSpace;
 import java.awt.image.BufferedImage;
@@ -7,10 +6,11 @@ import java.awt.image.ComponentColorModel;
 import java.awt.image.DataBuffer;
 import java.awt.image.WritableRaster;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class HighLifeGUI extends JPanel {
+	
+	final public static long serialVersionUID = (long) 1.0;
 	
 	// FIXME: change dimensions to fit the board's dimensions
 	private BufferedImage currentDisplayedBoard;
