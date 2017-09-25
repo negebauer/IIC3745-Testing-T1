@@ -20,12 +20,12 @@ public class Main {
 		HighLifeGUI gui = new HighLifeGUI(width, height);
 		
 		startGUI(gui);
-
+		gui.setDisplayData(board.getData());
+		
 		for(int i = 0; i < 600; i++) {
-			board.simulate();
-			
-			gui.setDisplayData(board.getData());
 			Thread.sleep(1000);
+			board.simulate();
+			gui.setDisplayData(board.getData());
 		}
 		
 	}
