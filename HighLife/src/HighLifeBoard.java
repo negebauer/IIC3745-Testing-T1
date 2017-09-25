@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 /**
  * A board of the HighLife variation of John Conway's Game of Life.
  * A cell will live in the next iteration, if:
