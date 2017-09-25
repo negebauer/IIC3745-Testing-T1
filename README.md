@@ -1,6 +1,6 @@
 # IIC3745 Testing - Tarea 1
 
-### Documentación proceso
+### Preparando desarrollo de tests
 
 El primer paso para desarrollar la tarea fue importar los archivos de la carpeta `HighLife/src` en un nuevo proyecto de Eclipse. Al hacer esto se mostraron _warnings_ dentro del programa, los cuales fueron arreglados.
 
@@ -44,3 +44,5 @@ Con esto en mente se procede a revisar el código en búsqueda de potenciales ob
 `public String toString()`: Este método también podría ser testeado, pero no tiene tanto valor. Esto dado que si los métodos anteriores están correctos se podrá apreciar facilmente en consola si este tiene un problema.
 
 Con esta información en mente se proceden a crear los distintos tests, los cuales se pueden encontrar en [`HighLife/src/HighLifeBoardTests.java`](HighLife/src/HighLifeBoardTests.java).
+
+### Creando y ejecutando tests. Bug fixes
