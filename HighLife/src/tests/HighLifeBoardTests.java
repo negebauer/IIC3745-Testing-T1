@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class HighLifeBoard {
+public class HighLifeBoardTests {
 
 	@Test
 	public void test() {
