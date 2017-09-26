@@ -16,7 +16,7 @@ public class HighLifeBoard {
 	/**
 	 * Changes the boolean value of a specific cell in the board
 	 * */
-  public void setCell(int i, int j, boolean value) {
+	public void setCell(int i, int j, boolean value) {
 		if(i < 0)
 			i = 0;
 		else if(i >= this.length)
