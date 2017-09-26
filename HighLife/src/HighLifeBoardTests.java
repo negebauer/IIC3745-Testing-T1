@@ -26,9 +26,9 @@ public class HighLifeBoardTests {
 		width = 10;
 		board = new boolean[][]{
 			{ false, true, false, false, false, false, false, false, false, false },
-			{ false, false, false, false, false, false, false, false, false, false },
-			{ false, false, false, false, false, false, false, false, false, false },
-			{ false, false, false, false, false, false, false, false, false, false },
+			{ false, false, false, false, false, false, false, false, true, true },
+			{ false, true, false, false, false, false, false, true, false, true },
+			{ true, false, true, false, false, false, false, false, true, true },
 			{ false, false, false, false, false, false, false, false, false, false },
 			{ false, false, false, false, false, false, false, false, false, false },
 			{ false, false, false, false, false, false, false, false, false, false },
@@ -159,6 +159,8 @@ public class HighLifeBoardTests {
 		assertEquals("0,0 has 1 neighbors", 1, highLifeBoard.countAliveNeighbors(0,0));
 		assertEquals("9,0 has 3 neighbors", 3, highLifeBoard.countAliveNeighbors(9,0));
 		assertEquals("8,1 has 2 neighbors", 2, highLifeBoard.countAliveNeighbors(8,1));
+		assertEquals("2,8 has 6 neighbors", 6, highLifeBoard.countAliveNeighbors(2,8));
+		assertEquals("3,1 has 3 neighbors", 3, highLifeBoard.countAliveNeighbors(3,1));
 	}
 
 	@Test
@@ -169,8 +171,62 @@ public class HighLifeBoardTests {
 	public void shouldDecideIfSurviveTest() {
 		assertFalse("0,0 should die", highLifeBoard.shouldSurvive(0,0));
 		assertFalse("0,1 should die", highLifeBoard.shouldSurvive(0,1));
+		assertFalse("2,6 should die", highLifeBoard.shouldSurvive(2,6));
 		assertTrue("9,0 should survive", highLifeBoard.shouldSurvive(9,0));
 		assertTrue("8,1 should survive", highLifeBoard.shouldSurvive(8,1));
+		assertTrue("2,1 should survive", highLifeBoard.shouldSurvive(2,1));
 	}
 
+	@Test
+	/**
+	 *  Revisa que se decida correctamente si una célula nace
+	 *  @author @negebauer
+	 */
+  public void shouldDecideIfBornTest() {
+		assertFalse("0,0 shouldn't born", highLifeBoard.shouldBeBorn(0,0));
+		assertFalse("2,4 shouldn't born", highLifeBoard.shouldBeBorn(2,4));
+		assertTrue("2,8 should born", highLifeBoard.shouldBeBorn(2,8));
+		assertTrue("3,1 should born", highLifeBoard.shouldBeBorn(3,1));
+  }
+
+	@Test
+	/**
+	 *  Revisa que se decida correctamente el estado futuro de una célula
+	 *  @author @negebauer
+	 */
+	public void shouldCalculateNextStateTest() {
+		assertFalse("0,0 should die", highLifeBoard.calculateNextState(0,0));
+		assertFalse("0,1 should die", highLifeBoard.calculateNextState(0,1));
+		assertFalse("2,6 should die", highLifeBoard.calculateNextState(2,6));
+		assertTrue("9,0 should survive", highLifeBoard.calculateNextState(9,0));
+		assertTrue("8,1 should survive", highLifeBoard.calculateNextState(8,1));
+		assertTrue("2,1 should survive", highLifeBoard.calculateNextState(2,1));
+
+		assertFalse("0,0 shouldn't born", highLifeBoard.calculateNextState(0,0));
+		assertFalse("2,4 shouldn't born", highLifeBoard.calculateNextState(2,4));
+		assertTrue("2,8 should born", highLifeBoard.calculateNextState(2,8));
+		assertTrue("3,1 should born", highLifeBoard.calculateNextState(3,1));
+	}
+
+	@Test
+	/**
+	 *  Revisa que el cambio se estado sea correcto
+	 *  @author @negebauer
+	 */
+	public void shouldSimulateTest() {
+		highLifeBoard.simulate();
+		boolean[][] instanceBoard = highLifeBoard.getData();
+
+		assertFalse("0,0 died", instanceBoard[0][0]);
+		assertFalse("0,1 died", instanceBoard[0][1]);
+		assertFalse("2,6 died", instanceBoard[2][6]);
+		assertTrue("9,0 survived", instanceBoard[9][0]);
+		assertTrue("8,1 survived", instanceBoard[8][1]);
+		assertTrue("2,1 survived", instanceBoard[2][1]);
+
+		assertFalse("0,0 wasn't born", instanceBoard[0][0]);
+		assertFalse("2,4 wasn't born", instanceBoard[2][4]);
+		assertTrue("2,8 was born", instanceBoard[2][8]);
+		assertTrue("3,1 was born", instanceBoard[3][1]);
+	}
 }

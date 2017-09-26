@@ -115,13 +115,11 @@ public class HighLifeBoard {
 	 * should be reborn.
 	 * */
 	public boolean shouldBeBorn(int i, int j) {
+	  int numAliveNeighbors = this.countAliveNeighbors(i, j);
 
-		int numAliveNeighbors = this.countAliveNeighbors(i, j);
-
-		if(numAliveNeighbors == 6)
-			return true;
-		else
-			return false;
+		if(numAliveNeighbors == 6 || numAliveNeighbors == 3)  // Revisión deregla faltante
+		  return true;
+	  return false;
 	}
 
 	/**

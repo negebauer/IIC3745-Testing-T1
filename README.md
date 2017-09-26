@@ -164,7 +164,7 @@ public int countAliveNeighbors(int i, int j) {
 }
 ```
 
-Luego pasamos a probar el método `shouldSurvive` a través del test `shouldDecideIfSurviveTest`. El test falla para celdas que tienen 2 y 3 vecinos, pero no falla cuando la celda debería morir. Se revisa el código y el problema es que se está usando `&&` en vez de `||`. Esto dado que una célula no puede tener 2 y 3 vecinos al mismo tiempo. El cambio de código es el siguiente:
+Luego pasamos a probar el método `shouldSurvive` a través del test `shouldDecideIfSurviveTest`. El test falla para celdas que tienen 2 y 3 vecinos, pero no falla cuando la celda debería morir. Se revisa el código y el problema es que se está usando `&&` en vez de `||`. Esto dado que una célula no puede tener 2 y 3 vecinos al mismo tiempo. No se revisa que la célula esté vacía ya que esto se realiza al calcular el próximo estado, es decir, este método tiene como precondición que la célula esté viva. El cambio de código es el siguiente:
 
 ```java
 // Código con error, no pasa test
@@ -184,8 +184,38 @@ public boolean shouldSurvive(int i, int j) {
 public boolean shouldSurvive(int i, int j) {
   int numAliveNeighbors = this.countAliveNeighbors(i, j);
 
-  if(numAliveNeighbors == 2 || numAliveNeighbors == 3)
+  if(numAliveNeighbors == 2 || numAliveNeighbors == 3)  // Arreglar revisión de regla
     return true;
   return false;
 }
 ```
+
+Ahora pasamos a revisar el método `shouldBeBorn` a través del test `shouldDecideIfBornTest`. Se ve que el método falla solo cuando se tiene una célula con 3 vecinos, se revisa el código y se nota que el caso de 6 vecinos no está siendo tomando en cuenta. El cambio de código es el siguiente:
+
+```java
+// Código con error, no pasa test
+public boolean shouldBeBorn(int i, int j) {
+
+  int numAliveNeighbors = this.countAliveNeighbors(i, j);
+
+  if(numAliveNeighbors == 6)
+    return true;
+  else
+    return false;
+}
+```
+
+```java
+// Código arreglado, pasa test
+public boolean shouldBeBorn(int i, int j) {
+  int numAliveNeighbors = this.countAliveNeighbors(i, j);
+
+  if(numAliveNeighbors == 6 || numAliveNeighbors == 3)  // Revisión de regla faltante
+    return true;
+  return false;
+}
+```
+
+Ahora que nuestros métodos que revisan sobrevivencia y nacimiento están correctos podemos pasar a testear el método que los utiliza a ambos, `calculateNextState`, a través del test `shoudlCalculateNextStateTest`. Para este test podemos reutilizar pruebas usadas en los 2 métodos anterios (`shouldSurvive` y `shouldBeBorn`). Este método no reporta ningún problema, lo cual es resultado de los arreglos realizados anteriormente.
+
+Y finalmente testeamos el método `simulate` a través del test `shouldSimulate`, el cual revisa que el avance de un estado al siguiente sea correcto. No se encuentras errores en este método, nuevamente gracias a los arreglos anteriores.
