@@ -10,6 +10,10 @@ Ahora con el proyecto sin _warnigs_ se procede a correr el programa.
 
 ![imgs/run01.png](imgs/run01.png)
 
+![imgs/run02.png](imgs/run02.png)
+
+![imgs/run03.png](imgs/run03.png)
+
 Luego de correrlo varias veces pareciera ser que ocurren las siguientes situaciones:
 
 - No se respeta la regla de sobrevivencia. Es decir, si una célula viva tiene 2 o 3 vecinos muere, en vez de mantenerse viva
