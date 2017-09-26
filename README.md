@@ -83,7 +83,7 @@ public void setCell(int i, int j, boolean value) {
 	if(j < 0)
 		j = 0;
 	else if(j >= this.width)
-		j = this.width - 1; // Aquí se estaba cambiando j
+		j = this.width - 1; // Aquí se estaba cambiando i en vez de j
 
 	board[i][j] = value; // No se hacía la asignación
 }
