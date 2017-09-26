@@ -16,7 +16,7 @@ public class HighLifeBoard {
 	/**
 	 * Changes the boolean value of a specific cell in the board
 	 * */
-	public void setCell(int i, int j, boolean value) {
+  public void setCell(int i, int j, boolean value) {
 		if(i < 0)
 			i = 0;
 		else if(i >= this.length)
@@ -25,8 +25,10 @@ public class HighLifeBoard {
 		if(j < 0)
 			j = 0;
 		else if(j >= this.width)
-			i = this.width - 1;
-	}
+			j = this.width - 1; // Aquí se estaba cambiando j
+
+		board[i][j] = value; // No se hacía la asignación
+ 	}
 
 	/**
 	 * Creates a board with the desired length and width.
@@ -69,14 +71,11 @@ public class HighLifeBoard {
 	 * @return true if it's alive
 	 * @return false if it isn't
 	 * */
-	public boolean isAlive(int i, int j) {
-		if(i < 0 || i >= length)
-			return false;
-		else if (j < 0 || j >= width)
-			return true;
-		else
-			return board[i][j];
-	}
+	 public boolean isAlive(int i, int j) {
+	   if(i < 0 || i >= length || j < 0 || j >= width) // Fuera del borde es muerto
+	     return false;
+	   return board[i][j];
+	 }
 
 	/**
 	 * To count the number of alive neighbors a cell has.

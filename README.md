@@ -19,25 +19,25 @@ Para probar la primera hipótesis se aumentó la probabilidad de que una célula
 
 Con esto en mente se procede a revisar el código en búsqueda de potenciales objetivos de UN. Para ello solo se revisa el archivo [`HighLife/src/HighLifeBoard.java`](HighLife/src/HighLifeBoard.java), dado que la funcionalidad del juego se encuentra contenida en dicho archivo.
 
-`public boolean[][] getData()`: Dado que se puede crear un board a partir de una matriz fija, podemos usar este método para testear el constructor junto con este método. Para ello creamos un nuevo _HighLifeBoard_ a partir de una matriz, luego revisamos que el retorno de `getData` coincida con este.
+`public boolean[][] getData()`: Dado que se puede crear un _board_ a partir de una matriz fija, podemos usar este método para testear el constructor junto con este método. Para ello creamos un nuevo _HighLifeBoard_ a partir de una matriz, luego revisamos que el retorno de `getData` coincida con este.
 
 `public void setCell(int i, int j, boolean value)`: Este método setea el valor de una celda. Se espera que cuando se le de un valor para cierta coordenada dicha celda tenga ese valor. Luego, se puede testear dandole distintas coordenadas junto con distintos estados y luego revisar si `board[][]` tiene el valor que se le dio llamando a `setCell`.
 
-`public HighLifeBoard(int length, int width, boolean random)`: Este método rellena el board de manera aleatoria (si se le pide). Si no, crea un board vacío. Se puede testear llamando con `random` `true` y `false`, luego revisar que si es `false` no haya ninguna célula viva. Si es `true` debería haber alguna célula viva. Dado que se llena de manera aleatoria no podemos definir un número fijo que debería cumplirse, por lo que testear porque haya por lo menos 1 debería ser suficiente.
+`public HighLifeBoard(int length, int width, boolean random)`: Este método rellena el _board_ de manera aleatoria (si se le pide). Si no, crea un _board_ vacío. Se puede testear llamando con `random` `true` y `false`, luego revisar que si es `false` no haya ninguna célula viva. Si es `true` debería haber alguna célula viva. Dado que se llena de manera aleatoria no podemos definir un número fijo que debería cumplirse, por lo que testear porque haya por lo menos 1 debería ser suficiente.
 
-`public HighLifeBoard(int length, int width)`: Este constructor puede ser testeado de la misma forma que el anterior, revisando que el board este vacío.
+`public HighLifeBoard(int length, int width)`: Este constructor puede ser testeado de la misma forma que el anterior, revisando que el _board_ este vacío.
 
 `public HighLifeBoard(boolean[][] board)`: Este método es testeado junto con `getData()`.
 
 `public boolean isAlive(int i, int j)`: Importante testear este método para que retorne el valor correcto. Cabe destacar que se debería testear llamando con coordenadas válidas como no válidas (fuera del mapa) y luego probar que se cumplan las reglas (por ejemplo, que todo fuera del mapa sea considerado `false`).
 
-`public int countAliveNeighbors(int i, int j)`: También importante de testear. Para ello podemos crear un board propio y revisar que los conteos de vecinos sean iguales a los esperados de acuerdo a las reglas del juego. Tomar en cuenta casos dentro del board como en el borde y fuera.
+`public int countAliveNeighbors(int i, int j)`: También importante de testear. Para ello podemos crear un _board_ propio y revisar que los conteos de vecinos sean iguales a los esperados de acuerdo a las reglas del juego. Tomar en cuenta casos dentro del _board_ como en el borde y fuera.
 
-`public boolean shouldSurvive(int i, int j)`: Testear con un board predefinido y revisar que retorne correctamente en base a las reglas. Importante probar también con casos borde. Con una mirada rápida se puede apreciar que tiene un error ya que hace `numAliveNeighbors == 2 && numAliveNeighbors == 3` en vez de `numAliveNeighbors == 2 || numAliveNeighbors == 3`. Esto va de la mano con las primeras hipótesis sobre el programa (ver más arriba) y quedará en evidencia en los tests. Tampoco se revisa que la célula esté viva en primer lugar.
+`public boolean shouldSurvive(int i, int j)`: Testear con un _board_ predefinido y revisar que retorne correctamente en base a las reglas. Importante probar también con casos borde. Con una mirada rápida se puede apreciar que tiene un error ya que hace `numAliveNeighbors == 2 && numAliveNeighbors == 3` en vez de `numAliveNeighbors == 2 || numAliveNeighbors == 3`. Esto va de la mano con las primeras hipótesis sobre el programa (ver más arriba) y quedará en evidencia en los tests. Tampoco se revisa que la célula esté viva en primer lugar.
 
 `public boolean shouldBeBorn(int i, int j)`: Mismo que el anterior. También se aprecia un error ya que solo revisa si se tienen 6 vecinos, cuando tener 3 también resulta en un nacimiento. Tampoco se revisa que la célula esté muerta en primer lugar.
 
-`public boolean calculateNextState(int i, int j)`: Este método es más complejo de probar ya que para ello tenemos que tener un board predefinido y luego probar que el futuro estado de las células coincida con el calculado a mano.
+`public boolean calculateNextState(int i, int j)`: Este método es más complejo de probar ya que para ello tenemos que tener un _board_ predefinido y luego probar que el futuro estado de las células coincida con el calculado a mano.
 
 `public void simulate()`: Lo mismo que el método anterior pero se debe tomar en cuenta todo el board, no solo casos en particular.
 
@@ -46,3 +46,76 @@ Con esto en mente se procede a revisar el código en búsqueda de potenciales ob
 Con esta información en mente se proceden a crear los distintos tests, los cuales se pueden encontrar en [`HighLife/src/HighLifeBoardTests.java`](HighLife/src/HighLifeBoardTests.java).
 
 ### Creando y ejecutando tests. Bug fixes
+
+Primero se crean tests para probar la creación del _board_, estos son:
+- shouldCreateBoardWithSizeTest()
+- shouldCreateBoardWithSizeNoRandomTest()
+- shouldCreateBoardWithSizeAndRandomTest()
+- shouldCreateBoardWithBoardTest()
+
+Estos pasan todos, por lo que no hay que hacer modificaciones ni a los contructores ni a `getData`.
+
+Luego se crean tests para probar el seteo de celdas (`setCell`), este test es `shouldSetCellTest()`. Para ello se prueba la celda (0,0), cambiando su valor a `false`, checkear que sea `false` y luego a `true` y checkear que sea `true`. También la implementación se encarga de que uno no escape de los bordes, cambiando los indices al correspondiente al borde. Por ello, se prueba el (0,0) usando (-1,-1) y el (length, width) usando (length+1, width+1). Este test falla, primero por que no se setean los valores correctamente y luego por salir del bound del array. Por lo que se modifica el código:
+
+```java
+// Código con error, no pasa test
+public void setCell(int i, int j, boolean value) {
+	if(i < 0)
+		i = 0;
+	else if(i >= this.length)
+		i = this.length - 1;
+
+	if(j < 0)
+		j = 0;
+	else if(j >= this.width)
+		i = this.width - 1;
+}
+```
+
+```java
+// Código arreglado, pasa test
+public void setCell(int i, int j, boolean value) {
+	if(i < 0)
+		i = 0;
+	else if(i >= this.length)
+		i = this.length - 1;
+
+	if(j < 0)
+		j = 0;
+	else if(j >= this.width)
+		j = this.width - 1; // Aquí se estaba cambiando j
+
+	board[i][j] = value; // No se hacía la asignación
+}
+```
+
+Los errores fueron porque primero faltaba la asignación del valor. Luego de arreglar esto se comprueba, al revisar fuera de los bordes, que hay una asignación de borde mala, ya que el test sigue fallando.
+
+Despues se checkea la revisión de si una celda está vacía. La regla para esto es:
+1. Si se está dentro del _board_, obtener el valor directamente de este
+2. Si se está fuera del _board_, entonces se considera como muerta
+
+Esto implica que las celdas en las orillas solo pueden tener un máximo de 5 vecinos. Para checkear esto se crea el test `shouldCheckCellAlive`. Este falla, por lo que se cambia el código para que cumpla con las reglas mencionadas.
+
+```java
+// Código con error, no pasa test
+public boolean isAlive(int i, int j) {
+  if(i < 0 || i >= length)
+    return false;
+  else if (j < 0 || j >= width)
+    return true;
+  else
+    return board[i][j];
+}
+```
+
+```java
+// Código arreglado, pasa test
+public boolean isAlive(int i, int j) {
+  if(i < 0 || i >= length || j < 0 || j >= width) // Fuera del borde es muerto
+    return false;
+  return board[i][j];
+}
+```
+
+Luego se pasa a testear el método `countAliveNeighbors` a través del test `shouldCountAliveNeighborsTest`.
