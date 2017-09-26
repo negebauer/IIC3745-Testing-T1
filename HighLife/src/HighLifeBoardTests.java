@@ -1,18 +1,18 @@
 import static org.junit.Assert.*;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 public class HighLifeBoardTests {
 
-	static int length;
-	static int width;
-	static boolean[][] board;
-	static HighLifeBoard highLifeBoard;
+	int length;
+	int width;
+	boolean[][] board;
+	HighLifeBoard highLifeBoard;
 
-	@BeforeClass
+	@Before
 	/**
-	 *  Setamos valores que seran usados por otros tests
+	 *  Seteamos valores que seran usados por otros tests
 	 *  para reducir el código repetido.
 	 *  En partícular nos interesa el board que se crea
 	 *  a partir del predefinido, con lo cual podemos hacer
@@ -21,7 +21,7 @@ public class HighLifeBoardTests {
 	 *  (shouldCreateBoardWithBoardTest)
 	 *  @author @negebauer
 	 */
-	static public void setUp() {
+	public void setUp() {
 		length = 10;
 		width = 10;
 		board = new boolean[][]{
