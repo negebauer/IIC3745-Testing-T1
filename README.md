@@ -1,5 +1,7 @@
 # IIC3745 Testing - Tarea 1
 
+## [Repo negebauer](https://github.com/negebauer/IIC3745-Testing-T1)
+
 ### Preparando desarrollo de tests
 
 El primer paso para desarrollar la tarea fue importar los archivos de la carpeta `HighLife/src` en un nuevo proyecto de Eclipse. Al hacer esto se mostraron _warnings_ dentro del programa, los cuales fueron arreglados.
@@ -219,3 +221,21 @@ public boolean shouldBeBorn(int i, int j) {
 Ahora que nuestros métodos que revisan sobrevivencia y nacimiento están correctos podemos pasar a testear el método que los utiliza a ambos, `calculateNextState`, a través del test `shoudlCalculateNextStateTest`. Para este test podemos reutilizar pruebas usadas en los 2 métodos anterios (`shouldSurvive` y `shouldBeBorn`). Este método no reporta ningún problema, lo cual es resultado de los arreglos realizados anteriormente.
 
 Y finalmente testeamos el método `simulate` a través del test `shouldSimulate`, el cual revisa que el avance de un estado al siguiente sea correcto. No se encuentras errores en este método, nuevamente gracias a los arreglos anteriores.
+
+Ahora se vuelve a correr el programa y se tiene un resultado mucho mejor, como se puede ver en el gif adjunto. (Se necesita un sistema compatible para verlo, o revisar el repo cuyo link está al principio)
+
+![imgs/runfixed.gif](imgs/runfixed.gif)
+
+### Análisis Unit Testing
+
+- ¿Cuáles son sus ventajas?
+- ¿Cuáles son sus limitaciones?
+- ~~¿Qué garantías entrega Unit Testing sobre un componente de software?~~
+
+##### ¿Cuáles son sus ventajas?
+
+Tener un Unit Test de un componente de software sirve al equipo de desarrollo para identificar problemas. En particular, cuando el código cambia, un test unitario puede identificar problemas que nacen de dichos cambios. Esto facilita cambios del código, ya que ayuda a encontrar problemas y por ello arreglarlos antes. También facilitan la integración. Esto ya que si todas las unidades están funcionando correctamente se hace más fácil el proceso de probar la unión entre dichas unidades. Si se encuentran problemas, dado que cada unidad funciona, se puede encontrar más fácilmente el problema (probablemente en la unión de las unidades). Si no hay test unitarios, no hay como saber si el problema es de alguna de las unidades o de la comunicación entre ambas.
+
+##### ¿Cuáles son sus limitaciones?
+
+Como su nombre lo indica, Unit Testing solo se dedica a testear unidades de código. Es decir, solo prueba ciertas partes del código y lo hace en base a ciertos _inputs_ y _outputs_. Ayuda a capturar errores en dichas unidades de código. Pero no ayuda a capturar otros problemas como problemas de integración, de performance u otros relacionados al sistema completo. Por ejemplo, podemos tener un método que funciona perfectamente (en base a un unit test) pero en producción dicho método falla ya que toma demasiado tiempo en ejecutarse. O su ejecución en conjunto con otras partes del programa colapsan al sistema. También se puede tener código cuyos unit tests funcionan perfectamente, pero que cuando se comunican entre ellos (por ejemplo, distintas clases) comienzan a aparecer errores. Esto dado que no se esta cubriendo la integración de las unidades. Otro problema importante de Unit Testing es que crece rápidamente, es decir, se tiene que escribir mucho código. Por cada decisión booleana (`true` o `false`) se tienen que crear dos tests, para códigos más complejos pueden ser más aún. Esto puede traducirse en que los desarrolladores estén haciendo más líneas de test que de código.
