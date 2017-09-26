@@ -10,24 +10,24 @@ private boolean[][] board;
 private int length, width;
 
 public boolean[][] getData() {
-	return board;
+  return board;
 }
 
 /**
  * Changes the boolean value of a specific cell in the board
  * */
 public void setCell(int i, int j, boolean value) {
-	if(i < 0)
-		i = 0;
-	else if(i >= this.length)
-		i = this.length - 1;
+  if(i < 0)
+    i = 0;
+  else if(i >= this.length)
+    i = this.length - 1;
 
-	if(j < 0)
-		j = 0;
-	else if(j >= this.width)
-		j = this.width - 1;
+  if(j < 0)
+    j = 0;
+  else if(j >= this.width)
+    j = this.width - 1;
 
-	board[i][j] = value;
+  board[i][j] = value;
 }
 
 /**
@@ -36,34 +36,34 @@ public void setCell(int i, int j, boolean value) {
  * (w/ the 30% alive)
  * */
 public HighLifeBoard(int length, int width, boolean random){
-	this.length = length;
-	this.width = width;
+  this.length = length;
+  this.width = width;
 
-	this.board = new boolean[length][width];
+  this.board = new boolean[length][width];
 
-	if(random) {
-		for(int i = 0; i < length; i++)
-			for(int j = 0; j < width; j++) {
-				// 30% chance of being alive
-				this.board[i][j] = Math.random() > 0.7 ? true : false;
-			}
-	}
+  if(random) {
+    for(int i = 0; i < length; i++)
+      for(int j = 0; j < width; j++) {
+        // 30% chance of being alive
+        this.board[i][j] = Math.random() > 0.7 ? true : false;
+      }
+  }
 }
 
 /**
  * Builds an empty board of the specified length and width
  * */
 public HighLifeBoard(int length, int width) {
-	this(length, width, false);
+  this(length, width, false);
 }
 
 /**
  * Builds a new board from the specified boolean matrix
  * */
 public HighLifeBoard(boolean[][] board) {
-	this.length = board.length;
-	this.width = board[0].length;
-	this.board = board;
+  this.length = board.length;
+  this.width = board[0].length;
+  this.board = board;
 }
 
 /**
@@ -72,9 +72,9 @@ public HighLifeBoard(boolean[][] board) {
  * @return false if it isn't
  * */
 public boolean isAlive(int i, int j) {
-	if(i < 0 || i >= length || j < 0 || j >= width)
-		return false;
-	return board[i][j];
+  if(i < 0 || i >= length || j < 0 || j >= width)
+    return false;
+  return board[i][j];
 }
 
 /**
@@ -83,19 +83,19 @@ public boolean isAlive(int i, int j) {
  * */
 public int countAliveNeighbors(int i, int j) {
 
-	int total = 0;
+  int total = 0;
 
-	total += this.isAlive(i - 1, j - 1)   ? 1 : 0;
-	total += this.isAlive(i - 1, j)       ? 1 : 0;
-	total += this.isAlive(i - 1, j + 1)   ? 1 : 0;
-	total += this.isAlive(i, j - 1)       ? 1 : 0;
-	// total += this.isAlive(i, j) ? 1 : 0;
-	total += this.isAlive(i, j + 1)       ? 1 : 0;
-	total += this.isAlive(i + 1, j - 1)   ? 1 : 0;
-	total += this.isAlive(i + 1, j)       ? 1 : 0;
-	total += this.isAlive(i + 1, j + 1)   ? 1 : 0;
+  total += this.isAlive(i - 1, j - 1)   ? 1 : 0;
+  total += this.isAlive(i - 1, j)       ? 1 : 0;
+  total += this.isAlive(i - 1, j + 1)   ? 1 : 0;
+  total += this.isAlive(i, j - 1)       ? 1 : 0;
+  // total += this.isAlive(i, j) ? 1 : 0;
+  total += this.isAlive(i, j + 1)       ? 1 : 0;
+  total += this.isAlive(i + 1, j - 1)   ? 1 : 0;
+  total += this.isAlive(i + 1, j)       ? 1 : 0;
+  total += this.isAlive(i + 1, j + 1)   ? 1 : 0;
 
-	return total;
+  return total;
 }
 
 /**
@@ -103,11 +103,11 @@ public int countAliveNeighbors(int i, int j) {
  * should survive.
  * */
 public boolean shouldSurvive(int i, int j) {
-	int numAliveNeighbors = this.countAliveNeighbors(i, j);
+  int numAliveNeighbors = this.countAliveNeighbors(i, j);
 
-	if(numAliveNeighbors == 2 || numAliveNeighbors == 3)
-		return true;
-	return false;
+  if(numAliveNeighbors == 2 || numAliveNeighbors == 3)
+    return true;
+  return false;
 }
 
 /**
@@ -115,11 +115,11 @@ public boolean shouldSurvive(int i, int j) {
  * should be reborn.
  * */
 public boolean shouldBeBorn(int i, int j) {
-	int numAliveNeighbors = this.countAliveNeighbors(i, j);
+  int numAliveNeighbors = this.countAliveNeighbors(i, j);
 
-	if(numAliveNeighbors == 6 || numAliveNeighbors == 3)
-		return true;
-	return false;
+  if(numAliveNeighbors == 6 || numAliveNeighbors == 3)
+    return true;
+  return false;
 }
 
 /**
@@ -128,45 +128,45 @@ public boolean shouldBeBorn(int i, int j) {
  * */
 public boolean calculateNextState(int i, int j) {
 
-	boolean isAlive = this.isAlive(i, j);
+  boolean isAlive = this.isAlive(i, j);
 
-	if(isAlive && this.shouldSurvive(i, j))
-		return true;
-	else if(!isAlive && this.shouldBeBorn(i, j))
-		return true;
-	else
-		return false;
+  if(isAlive && this.shouldSurvive(i, j))
+    return true;
+  else if(!isAlive && this.shouldBeBorn(i, j))
+    return true;
+  else
+    return false;
 }
 
 /**
  * To advance 1 iteration on the board.
  * */
 public void simulate() {
-	boolean[][] nextBoard = new boolean[length][width];
+  boolean[][] nextBoard = new boolean[length][width];
 
-	for(int i = 0; i < length; i++)
-		for(int j = 0; j < width; j++) {
-			nextBoard[i][j] = this.calculateNextState(i, j);
-		}
+  for(int i = 0; i < length; i++)
+    for(int j = 0; j < width; j++) {
+      nextBoard[i][j] = this.calculateNextState(i, j);
+    }
 
-	this.board = nextBoard;
+  this.board = nextBoard;
 }
 
 /**
  * Text representation of the board.
  * */
 public String toString() {
-	String res = "";
+  String res = "";
 
-	for(int i = 0; i < length; i++) {
-		for(int j = 0; j < width; j++)  {
-			res += isAlive(i, j) ? "O" : ".";
-			res += " ";
-		}
-		res += '\n';
-	}
+  for(int i = 0; i < length; i++) {
+    for(int j = 0; j < width; j++)  {
+      res += isAlive(i, j) ? "O" : ".";
+      res += " ";
+    }
+    res += '\n';
+  }
 
-	return res;
+  return res;
 }
 
 }
