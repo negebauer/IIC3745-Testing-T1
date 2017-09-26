@@ -25,16 +25,16 @@ public class HighLifeBoardTests {
 		length = 10;
 		width = 10;
 		board = new boolean[][]{
-			{ false, true, false, false, false, true, true, false, false, false },
-			{ false, true, false, false, false, true, true, false, false, false },
-			{ true, true, false, false, false, true, true, false, false, false },
-			{ false, true, false, false, false, true, true, false, false, false },
-			{ true, true, false, false, false, true, true, false, false, false },
-			{ true, true, false, false, false, true, true, false, false, false },
-			{ true, true, false, false, false, true, true, false, false, false },
-			{ true, true, false, false, false, true, true, false, false, false },
-			{ true, true, false, false, false, true, true, false, false, false },
-			{ true, true, false, false, false, true, true, false, false, false }
+			{ false, true, false, false, false, false, false, false, false, false },
+			{ false, false, false, false, false, false, false, false, false, false },
+			{ false, false, false, false, false, false, false, false, false, false },
+			{ false, false, false, false, false, false, false, false, false, false },
+			{ false, false, false, false, false, false, false, false, false, false },
+			{ false, false, false, false, false, false, false, false, false, false },
+			{ false, false, false, false, false, false, false, false, false, false },
+			{ false, false, false, false, false, false, false, false, false, false },
+			{ true, true, false, false, false, false, false, false, false, false },
+			{ false, true, false, false, false, false, false, false, false, false }
 		};
 		highLifeBoard = new HighLifeBoard(board);
 	}
@@ -151,12 +151,26 @@ public class HighLifeBoardTests {
 
 	@Test
 	/**
-	 *  Revisa que se cuenta correctamente la
-	 *  cantidad de vecinos vivos
+	 *  Revisa que se cuenta correctamente la cantidad de vecinos vivos
 	 *  @author @negebauer
 	 */
 	public void shouldCountAliveNeighborsTest() {
+		assertEquals("0,1 has 0 neighbors", 0, highLifeBoard.countAliveNeighbors(0,1));
+		assertEquals("0,0 has 1 neighbors", 1, highLifeBoard.countAliveNeighbors(0,0));
+		assertEquals("9,0 has 3 neighbors", 3, highLifeBoard.countAliveNeighbors(9,0));
+		assertEquals("8,1 has 2 neighbors", 2, highLifeBoard.countAliveNeighbors(8,1));
+	}
 
+	@Test
+	/**
+	 *  Revisa que se decida correctamente si una célula sobrevive
+	 *  @author @negebauer
+	 */
+	public void shouldDecideIfSurviveTest() {
+		assertFalse("0,0 should die", highLifeBoard.shouldSurvive(0,0));
+		assertFalse("0,1 should die", highLifeBoard.shouldSurvive(0,1));
+		assertTrue("9,0 should survive", highLifeBoard.shouldSurvive(9,0));
+		assertTrue("8,1 should survive", highLifeBoard.shouldSurvive(8,1));
 	}
 
 }

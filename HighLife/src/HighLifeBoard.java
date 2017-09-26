@@ -85,15 +85,15 @@ public class HighLifeBoard {
 
 		int total = 0;
 
-		total += this.isAlive(i - 1, j - 1) ? 1 : 0;
-		total += this.isAlive(i - 1, j) ? 1 : 0;
-		total += this.isAlive(i - 1, j + 1) ? 1 : 0;
-		total += this.isAlive(i, j - 1) ? 1 : 0;
-		total += this.isAlive(i, j) ? 1 : 0;
-		total += this.isAlive(i, j + 1) ? 1 : 0;
-		total += this.isAlive(i + 1, j - 1) ? 1 : 0;
-		total += this.isAlive(i + 1, j) ? 1 : 0;
-		total += this.isAlive(i + 1, j + 1) ? 1 : 0;
+		total += this.isAlive(i - 1, j - 1) 	? 1 : 0;
+		total += this.isAlive(i - 1, j) 			? 1 : 0;
+		total += this.isAlive(i - 1, j + 1) 	? 1 : 0;
+		total += this.isAlive(i, j - 1) 			? 1 : 0;
+		// total += this.isAlive(i, j) ? 1 : 0;
+		total += this.isAlive(i, j + 1) 			? 1 : 0;
+		total += this.isAlive(i + 1, j - 1) 	? 1 : 0;
+		total += this.isAlive(i + 1, j) 			? 1 : 0;
+		total += this.isAlive(i + 1, j + 1) 	? 1 : 0;
 
 		return total;
 	}
@@ -103,13 +103,11 @@ public class HighLifeBoard {
 	 * should survive.
 	 * */
 	public boolean shouldSurvive(int i, int j) {
+	  int numAliveNeighbors = this.countAliveNeighbors(i, j);
 
-		int numAliveNeighbors = this.countAliveNeighbors(i, j);
-
-		if(numAliveNeighbors == 2 && numAliveNeighbors == 3)
-			return true;
-		else
-			return false;
+	  if(numAliveNeighbors == 2 || numAliveNeighbors == 3)
+	    return true;
+	  return false;
 	}
 
 	/**

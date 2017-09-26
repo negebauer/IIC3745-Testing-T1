@@ -52,14 +52,14 @@ Con esta información en mente se proceden a crear los distintos tests, los cual
 ### Creando y ejecutando tests. Bug fixes
 
 Primero se crean tests para probar la creación del _board_, estos son:
-- shouldCreateBoardWithSizeTest()
-- shouldCreateBoardWithSizeNoRandomTest()
-- shouldCreateBoardWithSizeAndRandomTest()
-- shouldCreateBoardWithBoardTest()
+- shouldCreateBoardWithSizeTest
+- shouldCreateBoardWithSizeNoRandomTest
+- shouldCreateBoardWithSizeAndRandomTest
+- shouldCreateBoardWithBoardTest
 
 Estos pasan todos, por lo que no hay que hacer modificaciones ni a los contructores ni a `getData`.
 
-Luego se crean tests para probar el seteo de celdas (`setCell`), este test es `shouldSetCellTest()`. Para ello se prueba la celda (0,0), cambiando su valor a `false`, checkear que sea `false` y luego a `true` y checkear que sea `true`. También la implementación se encarga de que uno no escape de los bordes, cambiando los indices al correspondiente al borde. Por ello, se prueba el (0,0) usando (-1,-1) y el (length, width) usando (length+1, width+1). Este test falla, primero por que no se setean los valores correctamente y luego por salir del bound del array. Por lo que se modifica el código:
+Luego se crean tests para probar el seteo de celdas (`setCell`), este test es `shouldSetCellTest`. Para ello se prueba la celda (0,0), cambiando su valor a `false`, checkear que sea `false` y luego a `true` y checkear que sea `true`. También la implementación se encarga de que uno no escape de los bordes, cambiando los indices al correspondiente al borde. Por ello, se prueba el (0,0) usando (-1,-1) y el (length, width) usando (length+1, width+1). Este test falla, primero por que no se setean los valores correctamente y luego por salir del bound del array. Por lo que se modifica el código:
 
 ```java
 // Código con error, no pasa test
@@ -122,4 +122,70 @@ public boolean isAlive(int i, int j) {
 }
 ```
 
-Luego se pasa a testear el método `countAliveNeighbors` a través del test `shouldCountAliveNeighborsTest`.
+Luego se pasa a testear el método `countAliveNeighbors` a través del test `shouldCountAliveNeighborsTest`. Primero se prueba con el punto (0,1), el cual no tiene vecinos, y el test falla. Esto ya que dice que tiene 1 vecino. Inspeccionando el código se ve que se está contando el punto mismo (i,j) como vecino, lo cual es incorrecto. Se prueban también varios otros puntos, en particular casos bordes, pero no se encuentran más problemas. El cambio de código es el siguiente:
+
+```java
+// Código con error, no pasa test
+public int countAliveNeighbors(int i, int j) {
+
+  int total = 0;
+
+  total += this.isAlive(i - 1, j - 1) ? 1 : 0;
+  total += this.isAlive(i - 1, j) ? 1 : 0;
+  total += this.isAlive(i - 1, j + 1) ? 1 : 0;
+  total += this.isAlive(i, j - 1) ? 1 : 0;
+  total += this.isAlive(i, j) ? 1 : 0;
+  total += this.isAlive(i, j + 1) ? 1 : 0;
+  total += this.isAlive(i + 1, j - 1) ? 1 : 0;
+  total += this.isAlive(i + 1, j) ? 1 : 0;
+  total += this.isAlive(i + 1, j + 1) ? 1 : 0;
+
+  return total;
+}
+```
+
+```java
+// Código arreglado, pasa test
+public int countAliveNeighbors(int i, int j) {
+
+  int total = 0;
+
+  total += this.isAlive(i - 1, j - 1) ? 1 : 0;
+  total += this.isAlive(i - 1, j) ? 1 : 0;
+  total += this.isAlive(i - 1, j + 1) ? 1 : 0;
+  total += this.isAlive(i, j - 1) ? 1 : 0;
+  // total += this.isAlive(i, j) ? 1 : 0; // Se elimina esta línea
+  total += this.isAlive(i, j + 1) ? 1 : 0;
+  total += this.isAlive(i + 1, j - 1) ? 1 : 0;
+  total += this.isAlive(i + 1, j) ? 1 : 0;
+  total += this.isAlive(i + 1, j + 1) ? 1 : 0;
+
+  return total;
+}
+```
+
+Luego pasamos a probar el método `shouldSurvive` a través del test `shouldDecideIfSurviveTest`. El test falla para celdas que tienen 2 y 3 vecinos, pero no falla cuando la celda debería morir. Se revisa el código y el problema es que se está usando `&&` en vez de `||`. Esto dado que una célula no puede tener 2 y 3 vecinos al mismo tiempo. El cambio de código es el siguiente:
+
+```java
+// Código con error, no pasa test
+public boolean shouldSurvive(int i, int j) {
+
+  int numAliveNeighbors = this.countAliveNeighbors(i, j);
+
+  if(numAliveNeighbors == 2 && numAliveNeighbors == 3)
+    return true;
+  else
+    return false;
+}
+```
+
+```java
+// Código arreglado, pasa test
+public boolean shouldSurvive(int i, int j) {
+  int numAliveNeighbors = this.countAliveNeighbors(i, j);
+
+  if(numAliveNeighbors == 2 || numAliveNeighbors == 3)
+    return true;
+  return false;
+}
+```
